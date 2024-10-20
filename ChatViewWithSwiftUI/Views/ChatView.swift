@@ -14,6 +14,9 @@ struct ChatView: View {
     // メッセージエリアがタップされたら、キーボードを閉じる
     @FocusState private var textFieldForcused: Bool
     
+    // 画面を閉じるためのイベントハンドラーを設定(ListViewへ戻るため)
+    @Environment(\.dismiss) private var dismiss
+    
     // クラス内の値が変更されたら、画面
     // 詳細はChatViewMode.addMessage()
     @ObservedObject var vm: ChatViewModel = ChatViewModel()
@@ -115,8 +118,17 @@ extension ChatView {
     
     private var navigationArea: some View {
         HStack {
-            Image(systemName: "chevron.backward")
-                .font(.title2)
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.backward")
+                    .font(.title2)
+                    // ⚠️foregroundStyle()では色が反映されなかった
+                    .foregroundColor(.primary)
+            }
+
+            
+            
             Text("Title")
                 .font(.title2.bold())
             Spacer()
