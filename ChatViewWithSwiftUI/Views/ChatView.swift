@@ -11,6 +11,11 @@ struct ChatView: View {
     
     @State private var textFieldText: String = ""
     
+    // メッセージエリアがタップされたら、キーボードを閉じる
+    @FocusState private var textFieldForcused: Bool
+    
+    // クラス内の値が変更されたら、画面
+    // 詳細はChatViewMode.addMessage()
     @ObservedObject var vm: ChatViewModel = ChatViewModel()
     
     var body: some View {
@@ -57,6 +62,10 @@ extension ChatView {
         }
         // ダークモードにも対応するよう、アセットカタログで事前に設定
         .background(Color("Background"))
+        // メッセージエリアのタップを検知
+        .onTapGesture {
+            textFieldForcused = false
+        }
     }
     
     private var inputArea: some View {
@@ -82,6 +91,9 @@ extension ChatView {
                 .onSubmit {
                     sendMessage()
                 }
+            
+                // textFieldForcusedの状態に応じて、入力エリアの状態を変化させる
+                .focused($textFieldForcused)
             
             Image(systemName: "mic")
                 .font(.title2)
@@ -110,6 +122,9 @@ extension ChatView {
     }
     
     private func sendMessage() {
-        vm.addMessage(text: textFieldText)
+        if !textFieldText.isEmpty {
+            vm.addMessage(text: textFieldText)
+            textFieldText = ""
+        }
     }
 }
