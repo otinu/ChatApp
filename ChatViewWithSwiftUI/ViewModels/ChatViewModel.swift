@@ -7,10 +7,10 @@
 
 import Foundation
 
-class ChatViewModel {
+class ChatViewModel: ObservableObject {
     
     var chatData: [Chat] = []
-    var messages: [Message] = []
+    @Published var messages: [Message] = []
     
     // イニシャライザ
     init() {
@@ -59,5 +59,13 @@ class ChatViewModel {
                                  user: User.currentUser,
                                  date: Date().description,
                                  alreadyRead: false)
+        
+        /*
+         1. 単にappendしただけでは、画面ロードは終わってるため、画面反映はされない
+         2. ChatViewの中で宣言された変数ChatViewModel に@ObservedObject を付与
+         3. 変数ChatViewModelのクラスである、ChatViewModelにObservableObject を継承させる
+         4. クラスChatViewModel内で変動する可能性のあるプロパティ(フィールド)に@Published を付与(今回はmessages)
+         */
+        messages.append(newMessage)
     }
 }
