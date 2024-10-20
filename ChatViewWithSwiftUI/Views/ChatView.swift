@@ -44,28 +44,38 @@ extension ChatView {
     
     
     private var messageArea: some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                /*
-                 // ForEachで配列を回す場合、idの指定が必要
-                 ForEach(vm.messages, id: \.id) {_ in
-                */
-                
-                // MessageにIdentifiableを継承させてもForEachできる
-                ForEach(vm.messages) { message in
-                    // 別ファイルから呼び出し
-                    MessageRow(message: message)
+        // 画面のスクロールを動的にコントロールする(ScrollViewReader)
+        // →これで、画面を開いた瞬間に最下行へスクロールするようにする
+        ScrollViewReader { proxy in
+            ScrollView {
+                VStack(spacing: 0) {
+                    /*
+                     // ForEachで配列を回す場合、idの指定が必要
+                     ForEach(vm.messages, id: \.id) {_ in
+                    */
+                    
+                    // MessageにIdentifiableを継承させてもForEachできる
+                    ForEach(vm.messages) { message in
+                        // 別ファイルから呼び出し
+                        MessageRow(message: message)
+                    }
                 }
+                .padding(.horizontal)
+                .padding(.top, 72)
             }
-            .padding(.horizontal)
-            .padding(.top, 72)
+            // ダークモードにも対応するよう、アセットカタログで事前に設定
+            .background(Color("Background"))
+            // メッセージエリアのタップを検知
+            .onTapGesture {
+                textFieldForcused = false
+            }
+            // チャット画面を開いた瞬間を検知
+            .onAppear {
+                scrollToLast(proxy: proxy)
+            }
         }
-        // ダークモードにも対応するよう、アセットカタログで事前に設定
-        .background(Color("Background"))
-        // メッセージエリアのタップを検知
-        .onTapGesture {
-            textFieldForcused = false
-        }
+        
+        
     }
     
     private var inputArea: some View {
@@ -126,5 +136,12 @@ extension ChatView {
             vm.addMessage(text: textFieldText)
             textFieldText = ""
         }
+    }
+    
+    private func scrollToLast(proxy: ScrollViewProxy) {
+        if let lastMessage = vm.messages.last {
+            proxy.scrollTo(lastMessage.id, anchor: .bottom)
+        }
+        
     }
 }
