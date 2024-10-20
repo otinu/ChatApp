@@ -52,4 +52,8 @@ class ChatViewModel {
         
         
     }
+    
+    func addMessage() {
+        print("呼び出し成功")
+    }
 }
