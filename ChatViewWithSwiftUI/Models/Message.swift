@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Message: Decodable {
+struct Message: Decodable, Identifiable {
     // IDを自動採番
     // let id: String = UUID().uuidString
+    let id: String
     let text: String
     let user: User
     let date: String

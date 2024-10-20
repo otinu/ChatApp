@@ -38,9 +38,15 @@ extension ChatView {
     private var messageArea: some View {
         ScrollView {
             VStack(spacing: 0) {
-                ForEach(0..<15) {_ in
+                /*
+                 // ForEachで配列を回す場合、idの指定が必要
+                 ForEach(vm.messages, id: \.id) {_ in
+                */
+                
+                // MessageにIdentifiableを継承させてもForEachできる
+                ForEach(vm.messages) { message in
                     // 別ファイルから呼び出し
-                    MessageRow()
+                    MessageRow(message: message)
                 }
             }
             .padding(.horizontal)
