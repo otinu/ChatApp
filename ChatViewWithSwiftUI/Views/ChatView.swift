@@ -35,6 +35,9 @@ struct ChatView: View {
 
 
 extension ChatView {
+    
+    
+    
     private var messageArea: some View {
         ScrollView {
             VStack(spacing: 0) {

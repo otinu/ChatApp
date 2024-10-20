@@ -48,7 +48,9 @@ extension MessageRow {
             // 既読を右下に表示させるためにSpacer()を設置。
             // プレビューでは画面全体の右下でも、シミュレータを起動するとキレイに配置される
             Spacer()
-            Text("既読")
+            if message.alreadyRead {
+                Text("既読")
+            }
             // 現在時刻の表示
             Text(formattedDataString)
         }
@@ -58,7 +60,11 @@ extension MessageRow {
     
     private var formattedDataString: String {
         let formatter = DateFormatter()
-        formatter.timeStyle = .short
-        return formatter.string(from: Date())
+        // 最初はJSONの値を受け取るため、フォーマットの形式をJSONに合わせる
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        guard let date = formatter.date(from: message.date) else { return "" }
+        // 受けてからは、画面に見やすい表示にするためフォーマット形式をコンパクトにする
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
     }
 }

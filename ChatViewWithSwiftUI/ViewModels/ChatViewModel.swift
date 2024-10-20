@@ -15,8 +15,9 @@ class ChatViewModel {
     // イニシャライザ
     init() {
         chatData = fetchChatData()
+        
+        // chatData[0]の中にJSONの全データが入ってる
         messages = chatData[0].messages
-        print(messages)
     }
     
     private func fetchChatData() -> [Chat] {
