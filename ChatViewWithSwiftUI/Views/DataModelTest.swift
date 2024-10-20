@@ -27,9 +27,6 @@ struct DataModelTest: View {
             
             Text(user2.name)
             // Image(user2.image)
-            
-            
-            
         }
     }
 }
