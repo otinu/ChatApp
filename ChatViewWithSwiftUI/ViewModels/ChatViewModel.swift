@@ -8,6 +8,17 @@
 import Foundation
 
 class ChatViewModel {
+    
+    var chatData: [Chat] = []
+    var messages: [Message] = []
+    
+    // イニシャライザ
+    init() {
+        chatData = fetchChatData()
+        messages = chatData[0].messages
+        print(messages)
+    }
+    
     private func fetchChatData() -> [Chat] {
         let fileName = "chatData.json"
         let data: Data
@@ -33,7 +44,8 @@ class ChatViewModel {
              5.コンパイルエラー解消
              */
             return try JSONDecoder().decode([Chat].self, from: data)
-        } catch {
+        } catch let error {
+            print(error)
             fatalError("JSONのデコードに失敗しました")
         }
         
