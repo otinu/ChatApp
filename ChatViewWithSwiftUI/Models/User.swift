@@ -14,6 +14,10 @@ struct User: Decodable {
     
     var isCurrentUser: Bool {
         // Swiftの場合、return文1行で完結する場合、「return」は省略可能
-        self.id == "1"
+        self.id == User.currentUser.id
+    }
+    
+    static var currentUser: User {
+        User(id: "1", name: "jow", image: "user01")
     }
 }
