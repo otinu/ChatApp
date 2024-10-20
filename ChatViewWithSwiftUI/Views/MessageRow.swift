@@ -13,10 +13,16 @@ struct MessageRow: View {
     
     var body: some View {
         HStack(alignment: .top) {
-            userThumb
-            messageText
-            messageState
-            Spacer()
+            if message.user.isCurrentUser {
+                Spacer()
+                messageState
+                messageText
+            } else {
+                userThumb
+                messageText
+                messageState
+                Spacer()
+            }
         }
         .padding(.bottom)
     }
@@ -48,7 +54,7 @@ extension MessageRow {
             // 既読を右下に表示させるためにSpacer()を設置。
             // プレビューでは画面全体の右下でも、シミュレータを起動するとキレイに配置される
             Spacer()
-            if message.alreadyRead {
+            if message.user.isCurrentUser && message.alreadyRead {
                 Text("既読")
             }
             // 現在時刻の表示
