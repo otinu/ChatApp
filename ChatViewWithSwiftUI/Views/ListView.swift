@@ -52,6 +52,8 @@ extension ListView {
                 ForEach(vm.chatData) { chat in
                     NavigationLink {
                         ChatView(chat: chat)
+                        // ChatViewでもvmを参照できるように渡す
+                            .environmentObject(vm)
                         // 遷移先の画面上部に表示される戻るボタンを非表示にする
                             .toolbar(.hidden)
                     } label: {

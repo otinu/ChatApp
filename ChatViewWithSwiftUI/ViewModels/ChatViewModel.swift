@@ -9,7 +9,7 @@ import Foundation
 
 class ChatViewModel: ObservableObject {
     
-    var chatData: [Chat] = []
+    @Published var chatData: [Chat] = []
     @Published var messages: [Message] = []
     
     // イニシャライザ
@@ -53,7 +53,13 @@ class ChatViewModel: ObservableObject {
         
     }
     
-    func addMessage(text: String) {
+    func addMessage(chatId: String, text: String) {
+        
+        // firstIndex →　条件がtrueになる最初の要素のインデックスを返却
+        guard let index = chatData.firstIndex(where: { chat in
+            chat.id == chatId
+        } ) else { return }
+        
         let newMessage = Message(id: UUID().uuidString,
                                  text: text,
                                  user: User.currentUser,
@@ -66,6 +72,6 @@ class ChatViewModel: ObservableObject {
          3. 変数ChatViewModelのクラスである、ChatViewModelにObservableObject を継承させる
          4. クラスChatViewModel内で変動する可能性のあるプロパティ(フィールド)に@Published を付与(今回はmessages)
          */
-        messages.append(newMessage)
+        chatData[index].messages.append(newMessage)
     }
 }

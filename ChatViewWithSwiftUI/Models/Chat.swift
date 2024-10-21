@@ -9,7 +9,7 @@ import Foundation
 
 struct Chat: Decodable, Identifiable {
     let id: String
-    let messages: [Message]
+    var messages: [Message]
     
     // 最新のメッセージ
     var recentMessageText: String {

@@ -19,9 +19,11 @@ struct ChatView: View {
     // 画面を閉じるためのイベントハンドラーを設定(ListViewへ戻るため)
     @Environment(\.dismiss) private var dismiss
     
+    // ListViewの「@ObservedObject var vm」と同じオブジェクトを参照するようにする
+    @EnvironmentObject var vm: ChatViewModel
     // クラス内の値が変更されたら、画面
     // 詳細はChatViewMode.addMessage()
-    @ObservedObject var vm: ChatViewModel = ChatViewModel()
+    // @ObservedObject var vm: ChatViewModel = ChatViewModel()
     
     var body: some View {
         VStack(spacing: 0) {
@@ -145,7 +147,7 @@ extension ChatView {
     
     private func sendMessage() {
         if !textFieldText.isEmpty {
-            vm.addMessage(text: textFieldText)
+            vm.addMessage(chatId: chat.id, text: textFieldText)
             textFieldText = ""
         }
     }
