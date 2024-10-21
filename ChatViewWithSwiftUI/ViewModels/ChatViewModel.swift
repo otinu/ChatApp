@@ -10,14 +10,10 @@ import Foundation
 class ChatViewModel: ObservableObject {
     
     @Published var chatData: [Chat] = []
-    @Published var messages: [Message] = []
     
     // イニシャライザ
     init() {
         chatData = fetchChatData()
-        
-        // chatData[0]の中にJSONの全データが入ってる
-        messages = chatData[0].messages
     }
     
     private func fetchChatData() -> [Chat] {
