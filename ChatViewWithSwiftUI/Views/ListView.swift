@@ -55,14 +55,16 @@ extension ListView {
                         // 遷移先の画面上部に表示される戻るボタンを非表示にする
                             .toolbar(.hidden)
                     } label: {
-                        listRow
+                        listRow(chat: chat)
                     }
                 }
             }
         }
     }
     
-    private var listRow: some View {
+    // これで、Viewが引数をもてるようになる。varがfuncになってる点がミソ
+    private func listRow(chat: Chat) -> some View {
+    // private var listRow: some View {
         HStack {
             Image("user01")
                 .resizable()
@@ -71,8 +73,9 @@ extension ListView {
             VStack(alignment:  .leading) {
                 Text("タイトル")
                     .foregroundColor(.primary)
-                Text("最新のメッセージ")
+                Text(chat.recentMessageText)
                     .font(.footnote)
+                    .lineLimit(1)
                     .foregroundStyle(Color(uiColor: .secondaryLabel))
             }
             Spacer()
