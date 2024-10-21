@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ChatView: View {
     
+    let chat: Chat
+    
     @State private var textFieldText: String = ""
     
     // メッセージエリアがタップされたら、キーボードを閉じる
@@ -37,14 +39,12 @@ struct ChatView: View {
     }
 }
 
-#Preview {
-    ChatView()
-}
+//#Preview {
+//    ChatView()
+//}
 
 
 extension ChatView {
-    
-    
     
     private var messageArea: some View {
         // 画面のスクロールを動的にコントロールする(ScrollViewReader)
@@ -58,7 +58,7 @@ extension ChatView {
                     */
                     
                     // MessageにIdentifiableを継承させてもForEachできる
-                    ForEach(vm.messages) { message in
+                    ForEach(chat.messages) { message in
                         // 別ファイルから呼び出し
                         MessageRow(message: message)
                     }
