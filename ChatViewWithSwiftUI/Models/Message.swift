@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct Message: Decodable, Identifiable {
+struct Message: Decodable, Identifiable, Equatable {
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        lhs.id == rhs.id
+    }
+    
     // IDを自動採番
     // let id: String = UUID().uuidString
     
