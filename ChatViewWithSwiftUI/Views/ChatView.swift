@@ -82,6 +82,10 @@ extension ChatView {
             .onChange(of: chat.messages) {
                 scrollToLast(proxy: proxy, smooth: true)
             }
+            
+            .onReceive(NotificationCenter.default.publisher(for: UIResponder.keyboardDidShowNotification)) { _ in
+                scrollToLast(proxy: proxy, smooth: true)
+            }
         }
     }
     
